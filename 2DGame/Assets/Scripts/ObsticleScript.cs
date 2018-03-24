@@ -31,7 +31,7 @@ public class ObsticleScript : MonoBehaviour {
         rb.velocity = Vector2.left * speed;
         transform.Rotate(0, 0, rotSpeed * Time.deltaTime);
 
-        if (transform.position.x < minLeft)
+        if (transform.position.x < minLeft && Time.timeScale == 1)
         {
             if (scoreText)
             {

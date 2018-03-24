@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainGame.unity
     guid: da9706646f6abd74898ad57a67a9427f
+  - enabled: 1
+    path: Assets/Scenes/StackGame.unity
+    guid: 90df7558b78f5f5439e3138326420fb8

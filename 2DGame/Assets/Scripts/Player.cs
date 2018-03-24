@@ -16,7 +16,7 @@ public class Player : MonoBehaviour {
     private TextMeshProUGUI scoreText, highScoreText;
 
     [SerializeField]
-    private GameObject highScore;
+    private GameObject highScore, pauseButton;
 
     public bool PressingUp, pressingDown;
 
@@ -29,8 +29,14 @@ public class Player : MonoBehaviour {
 
         PressingUp = false;
         pressingDown = false;
-
-        highScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore");
+        if (SceneManager.GetActiveScene().buildIndex == 1) // in normal game
+        {
+            highScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScoreGame");
+        }
+        else
+        {
+            highScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScoreStack");
+        }
     }
 	
 	// Update is called once per frame
@@ -76,15 +82,32 @@ public class Player : MonoBehaviour {
     {
         Time.timeScale = slowFactor;
         Time.fixedDeltaTime = Time.timeScale * .02f;
+
         // set high score if needed
         int scoreInt = System.Convert.ToInt32(scoreText.text.Substring(7, scoreText.text.Length - 7)); // adding score
-        if (scoreInt > PlayerPrefs.GetInt("HighScore"))
+
+        if(SceneManager.GetActiveScene().buildIndex == 1) // in normal game
         {
-            PlayerPrefs.SetInt("HighScore", scoreInt);
-            highScoreText.text = "High Score: " + scoreInt;
+            Debug.Log("HighScoreGame");
+            if (scoreInt > PlayerPrefs.GetInt("HighScoreGame"))
+            {
+                PlayerPrefs.SetInt("HighScoreGame", scoreInt);
+                highScoreText.text = "High Score: " + scoreInt;
+            }
+        }
+        else // in stack game
+        {
+            Debug.Log("HighScoreStack");
+            if (scoreInt > PlayerPrefs.GetInt("HighScoreStack"))
+            {
+                PlayerPrefs.SetInt("HighScoreStack", scoreInt);
+                highScoreText.text = "High Score: " + scoreInt;
+            }
         }
 
         highScore.SetActive(true);
+
+        pauseButton.SetActive(false);
 
         StartCoroutine(WaitForSlowMo());
     }
@@ -92,6 +115,6 @@ public class Player : MonoBehaviour {
     private IEnumerator WaitForSlowMo()
     {
         yield return new WaitForSeconds(waitDeath * slowFactor);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

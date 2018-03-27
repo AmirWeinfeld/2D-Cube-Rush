@@ -11,8 +11,7 @@ public class ObsticleScript : MonoBehaviour {
     private float spawnX;
 
     private Rigidbody2D rb;
-
-    [HideInInspector]
+    
     public TextMeshProUGUI scoreText;
 
     public float rotSpeed, speed;
@@ -24,11 +23,19 @@ public class ObsticleScript : MonoBehaviour {
     {
         rb = GetComponent<Rigidbody2D>();
         spawnX = transform.position.x;
+        rb.velocity = speed * Vector2.left;
+    }
+
+    public void Spawn()
+    {
+        if (rb == null)
+            rb = GetComponent<Rigidbody2D>();
+        rb.velocity = speed * Vector2.left;
     }
 
     // Update is called once per frame
     void Update () {
-        rb.velocity = Vector2.left * speed;
+        // rb.velocity = Vector2.left * speed;
         transform.Rotate(0, 0, rotSpeed * Time.deltaTime);
 
         if (transform.position.x < minLeft && Time.timeScale == 1)
@@ -41,11 +48,19 @@ public class ObsticleScript : MonoBehaviour {
 
             if (timePassedEnd == maxTimePassedEnd) // Destroying the gameobject if the obj added max score
             {
-                Destroy(gameObject);
+                PassedMaxTimes();
             }
 
             transform.position = new Vector3(spawnX, transform.position.y, transform.position.z); // reseting obj pos
             timePassedEnd++;
         }
 	}
+
+    private void PassedMaxTimes()
+    {
+        transform.position = new Vector3(spawnX, 0, 0);
+        timePassedEnd = 0;
+        gameObject.SetActive(false);
+        //Destroy(gameObject);
+    }
 }

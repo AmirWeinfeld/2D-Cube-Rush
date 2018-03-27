@@ -50,12 +50,12 @@ public class Player : MonoBehaviour {
                 rb.velocity = Vector2.zero;
         */
 
-        if (PressingUp && transform.position.y < max && Time.timeScale != slowFactor && !pressingDown)
+        /*if (PressingUp && transform.position.y < max && Time.timeScale != slowFactor && !pressingDown)
             rb.velocity = Vector2.up * speed;
         else if (pressingDown && transform.position.y > -max && Time.timeScale != slowFactor && !PressingUp)
-            rb.velocity = Vector2.up * -speed;
-        else
-            if (Time.timeScale != slowFactor)
+            rb.velocity = Vector2.up * -speed;*/
+        
+        if (Time.timeScale != slowFactor && !PressingUp && !pressingDown)
             rb.velocity = Vector2.zero;
 
         if (transform.position.y > max)
@@ -68,14 +68,18 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public void OnPressUp()
+    public void OnPressUp(bool newUp)
     {
-        PressingUp = !PressingUp;
+        PressingUp = newUp;
+        if (PressingUp && transform.position.y < max && Time.timeScale != slowFactor && !pressingDown)
+            rb.velocity = Vector2.up * speed;
     }
 
-    public void OnPressDown()
+    public void OnPressDown(bool newDown)
     {
-        pressingDown = !pressingDown;
+        pressingDown = newDown;
+        if (pressingDown && transform.position.y > -max && Time.timeScale != slowFactor && !PressingUp)
+            rb.velocity = Vector2.up * -speed;
     }
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -88,7 +92,6 @@ public class Player : MonoBehaviour {
 
         if(SceneManager.GetActiveScene().buildIndex == 1) // in normal game
         {
-            Debug.Log("HighScoreGame");
             if (scoreInt > PlayerPrefs.GetInt("HighScoreGame"))
             {
                 PlayerPrefs.SetInt("HighScoreGame", scoreInt);
@@ -97,7 +100,6 @@ public class Player : MonoBehaviour {
         }
         else // in stack game
         {
-            Debug.Log("HighScoreStack");
             if (scoreInt > PlayerPrefs.GetInt("HighScoreStack"))
             {
                 PlayerPrefs.SetInt("HighScoreStack", scoreInt);

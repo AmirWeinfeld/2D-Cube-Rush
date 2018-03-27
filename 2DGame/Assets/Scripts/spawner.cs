@@ -5,27 +5,28 @@ using TMPro;
 public class spawner : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] obstaclePrefab;
+    private GameObject[] obstacleObjects;
 
     [SerializeField]
-    private float timeBetweenSpawn, randY, maxSize, minSize, maxRotSpeed, decreaseTimeAmmount, decreaseEverySecs, minTime, objSpeed, IncreaseSpeed;
+    private ObsticleScript[] obstacleScripts;
+
+    [SerializeField]
+    private float timeBetweenSpawn, randY, maxSize, minSize, maxRotSpeed, decreaseTimeAmmount, decreaseEverySecs, minTime, objSpeed, IncreaseSpeed, spawn, maxSpeed;
 
     [SerializeField]
     private int maxTimePassed;
 
-    private float spawn;
-
     [SerializeField]
     private TextMeshProUGUI scoreText;
+
+    private int nextObjToSpawn;
 
     // Use this for initialization
     void Start()
     {
-        GameObject temp = Instantiate(obstaclePrefab[0]);
-        spawn = temp.transform.position.x;
-        temp.GetComponent<ObsticleScript>().scoreText = scoreText;
+        nextObjToSpawn = 0;
         StartCoroutine(MainSpawn());
-        StartCoroutine(SpawnTimeDecreaser());
+        //StartCoroutine(SpawnTimeDecreaser());
     }
 
     private IEnumerator MainSpawn()
@@ -33,24 +34,45 @@ public class spawner : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(timeBetweenSpawn);
-            int obsIndex = Random.Range(0, 3);
-            GameObject tempCube = Instantiate(obstaclePrefab[obsIndex]);
+            obstacleObjects[nextObjToSpawn].SetActive(true);
+            //int obsIndex = Random.Range(0, 3);
+            //GameObject tempCube = Instantiate(obstaclePrefab[obsIndex]);
 
             float randy = Random.Range(-randY, randY);
-            tempCube.transform.position = new Vector3(spawn, randy, 0f);
+            obstacleObjects[nextObjToSpawn].transform.position = new Vector3(spawn, randy, 0f); // setting starting poins
 
-            float randSize = Random.Range(maxSize, minSize);
-            tempCube.transform.localScale = new Vector3(randSize, randSize, tempCube.transform.localScale.z);
+            float randSize = Random.Range(maxSize, minSize); // setting size
+            obstacleObjects[nextObjToSpawn].transform.localScale = new Vector3(randSize, randSize, obstacleObjects[nextObjToSpawn].transform.localScale.z);
             
-            float randRot = Random.Range(-maxRotSpeed, maxRotSpeed);
-            ObsticleScript tempScript = tempCube.GetComponent<ObsticleScript>();
-            tempScript.rotSpeed = randRot;
+            float randRot = Random.Range(-maxRotSpeed, maxRotSpeed); // setting rotation speed
+            obstacleScripts[nextObjToSpawn].rotSpeed = randRot;
 
-            tempScript.scoreText = scoreText;
+            obstacleScripts[nextObjToSpawn].scoreText = scoreText;
 
-            tempScript.speed = objSpeed;
+            obstacleScripts[nextObjToSpawn].speed = objSpeed; // setting movement speed
 
-            tempScript.maxTimePassedEnd = maxTimePassed;
+            obstacleScripts[nextObjToSpawn].Spawn();
+
+            obstacleScripts[nextObjToSpawn].maxTimePassedEnd = maxTimePassed; // setting max amount of times the obj can do
+
+            if (timeBetweenSpawn > minTime) // decreasing time between spawn
+                timeBetweenSpawn -= decreaseTimeAmmount;
+            else
+                timeBetweenSpawn = minTime;
+
+            if (objSpeed < maxSpeed) // increasing obj speed
+                objSpeed += IncreaseSpeed;
+            else if (objSpeed < maxSpeed + maxSpeed/2)
+            {
+                objSpeed = maxSpeed;
+                maxTimePassed = 1;
+            }
+
+            nextObjToSpawn++;
+            if(nextObjToSpawn == obstacleObjects.Length)
+            {
+                nextObjToSpawn = 0;
+            }
         }
     }
 

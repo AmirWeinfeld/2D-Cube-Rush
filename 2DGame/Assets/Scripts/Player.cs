@@ -9,11 +9,11 @@ public class Player : MonoBehaviour {
 
     private Rigidbody2D rb;
 
-    [SerializeField]
-    private KeyCode up, down;
+    /*[SerializeField]
+    private KeyCode up, down;*/
 
     [SerializeField]
-    private TextMeshProUGUI scoreText, highScoreText;
+    private TextMeshProUGUI scoreText, highScoreText, posDebug;
 
     [SerializeField]
     private GameObject highScore, pauseButton;
@@ -57,7 +57,7 @@ public class Player : MonoBehaviour {
         
         if (Time.timeScale != slowFactor && !PressingUp && !pressingDown)
             rb.velocity = Vector2.zero;*/
-
+        //posDebug.text = transform.position.x.ToString() + " | " + transform.position.y.ToString() + " | " + transform.position.z.ToString();
         if (Time.timeScale == 1)
         {
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
@@ -66,7 +66,7 @@ public class Player : MonoBehaviour {
                 Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
 
                 // Move object across XY plane
-                transform.Translate(-touchDeltaPosition.x * speed, -touchDeltaPosition.y * speed, 0);
+                transform.Translate(touchDeltaPosition.x * speed, touchDeltaPosition.y * speed, 0);
             }
             /*lastPos = transform.position;
             Vector3 mousePos = Input.mousePosition;
@@ -108,13 +108,23 @@ public class Player : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D col)
     {
+        ReceivedDamage();
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        ReceivedDamage();
+    }
+
+    private void ReceivedDamage()
+    {
         Time.timeScale = slowFactor;
         Time.fixedDeltaTime = Time.timeScale * .02f;
 
         // set high score if needed
         int scoreInt = System.Convert.ToInt32(scoreText.text.Substring(7, scoreText.text.Length - 7)); // adding score
 
-        if(SceneManager.GetActiveScene().buildIndex == 1) // in normal game
+        if (SceneManager.GetActiveScene().buildIndex == 1) // in normal game
         {
             if (scoreInt > PlayerPrefs.GetInt("HighScoreGame"))
             {
@@ -137,7 +147,7 @@ public class Player : MonoBehaviour {
 
         StartCoroutine(WaitForSlowMo());
     }
-    
+
     private IEnumerator WaitForSlowMo()
     {
         yield return new WaitForSeconds(waitDeath * slowFactor);

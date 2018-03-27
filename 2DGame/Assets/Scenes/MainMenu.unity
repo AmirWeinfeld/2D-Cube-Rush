@@ -1345,11 +1345,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -1560,11 +1560,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -1713,7 +1713,7 @@ MonoBehaviour:
     Get as Far as You Can and Earn as Many Points as You Can!
 
 
-    Click On The Lower/Upper Side of The Screen To Move
+    Click And Drag To Move Your Charecter
 
 
     Shift: Blocks Disappear after a while
@@ -1785,19 +1785,19 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1111410949}
-    characterCount: 216
+    characterCount: 202
     spriteCount: 0
-    spaceCount: 41
-    wordCount: 40
+    spaceCount: 38
+    wordCount: 36
     linkCount: 0
-    lineCount: 10
+    lineCount: 9
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -2064,8 +2064,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -192.9}
-  m_SizeDelta: {x: 135.23, y: 56.97}
+  m_AnchoredPosition: {x: 0, y: -179}
+  m_SizeDelta: {x: 147.6, y: 62.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1480362037
 MonoBehaviour:
@@ -2835,9 +2835,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f42dbb3fc21ecc540a6546203ab1ff39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HalfOfAddScale: 0.06
+  HalfOfAddScale: 0.08
   ScalingSpeed: 0.0065
-  minScale: 0.94
+  minScale: 0.92
 --- !u!1 &2083227001
 GameObject:
   m_ObjectHideFlags: 0

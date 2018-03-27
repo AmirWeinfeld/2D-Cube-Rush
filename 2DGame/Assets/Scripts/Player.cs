@@ -20,7 +20,7 @@ public class Player : MonoBehaviour {
 
     public bool PressingUp, pressingDown;
 
-    public AudioClip ac;
+    private Vector3 lastPos;
 
     // Use this for initialization
     void Start () {
@@ -53,19 +53,39 @@ public class Player : MonoBehaviour {
         /*if (PressingUp && transform.position.y < max && Time.timeScale != slowFactor && !pressingDown)
             rb.velocity = Vector2.up * speed;
         else if (pressingDown && transform.position.y > -max && Time.timeScale != slowFactor && !PressingUp)
-            rb.velocity = Vector2.up * -speed;*/
+            rb.velocity = Vector2.up * -speed;
         
         if (Time.timeScale != slowFactor && !PressingUp && !pressingDown)
-            rb.velocity = Vector2.zero;
+            rb.velocity = Vector2.zero;*/
 
-        if (transform.position.y > max)
+        if (Time.timeScale == 1)
+        {
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+            {
+                // Get movement of the finger since last frame
+                Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
+
+                // Move object across XY plane
+                transform.Translate(-touchDeltaPosition.x * speed, -touchDeltaPosition.y * speed, 0);
+            }
+            /*lastPos = transform.position;
+            Vector3 mousePos = Input.mousePosition;
+            Vector3 wantedPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10));
+            transform.position = wantedPos;
+            if(Vector3.Distance(wantedPos, lastPos) > 0.5f)
+            {
+                Debug.Log(Vector3.Distance(wantedPos, lastPos));
+            }*/
+        }
+
+        /*if (transform.position.y > max)
         {
             transform.position = new Vector3(transform.position.x, max, transform.position.z);
         }
         else if(transform.position.y < -max)
         {
             transform.position = new Vector3(transform.position.x, -max, transform.position.z);
-        }
+        }*/
     }
 
     public void OnPressUp(bool newUp)
@@ -73,6 +93,8 @@ public class Player : MonoBehaviour {
         PressingUp = newUp;
         if (PressingUp && transform.position.y < max && Time.timeScale != slowFactor && !pressingDown)
             rb.velocity = Vector2.up * speed;
+        else if (Time.timeScale != slowFactor)
+            rb.velocity = Vector2.zero;
     }
 
     public void OnPressDown(bool newDown)
@@ -80,6 +102,8 @@ public class Player : MonoBehaviour {
         pressingDown = newDown;
         if (pressingDown && transform.position.y > -max && Time.timeScale != slowFactor && !PressingUp)
             rb.velocity = Vector2.up * -speed;
+        else if (Time.timeScale != slowFactor)
+            rb.velocity = Vector2.zero;
     }
 
     private void OnCollisionEnter2D(Collision2D col)

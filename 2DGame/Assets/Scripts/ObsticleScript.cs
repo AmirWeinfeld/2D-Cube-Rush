@@ -4,8 +4,7 @@ using TMPro;
 public class ObsticleScript : MonoBehaviour {
     [SerializeField]
     private float minLeft;
-
-    [HideInInspector]
+    
     public int maxTimePassedEnd;
 
     private float spawnX;

@@ -76,7 +76,7 @@ public class spawner : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnTimeDecreaser()
+    /*private IEnumerator SpawnTimeDecreaser()
     {
         while (true)
         {
@@ -86,5 +86,5 @@ public class spawner : MonoBehaviour
 
             objSpeed += IncreaseSpeed;
         }
-    }
+    }*/
 }
